@@ -96,12 +96,18 @@ const postsSlice = createSlice({
         // reduxtoolkit uses immerjs library under the hood and this makes sure
         // that we do not mutate the state, this can only happen inside the reducer (createSlice)
         reactionAdded(state, action){
+            // console.log('store:' , action)
             const {postId, reaction} = action.payload
             const existingPost = state.posts.find(post => post.id === postId)
             if(existingPost) {
                 existingPost.reactions[reaction]++
             }
         },
+        postsRemoved(state, action){
+            const {postId} = action.payload            
+            const index = state.posts.findIndex((post) => post.id === postId);
+            state.posts.splice(index, 1);           
+        }
     },
     // sometime slice reducers needs to respond to other actions that were not defined as part of slices reducers 
     // builder parameter: is an object that lets us defined addiotional case reducers that run in reponse to the actions defined outside of an slice
@@ -156,5 +162,5 @@ export const getPostsStatus = (state) => state.posts.status;
 export const getPostError = (state) => state.posts.error; 
 
 
-export const { postAdded, reactionAdded } = postsSlice.actions;
+export const { postAdded, reactionAdded, postsRemoved } = postsSlice.actions;
 export default postsSlice.reducer
