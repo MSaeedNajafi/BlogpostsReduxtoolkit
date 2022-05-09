@@ -23,7 +23,6 @@ const usersSlice = createSlice({
         builder.addCase(fetchUsers.fulfilled, (state, action) => {
             return action.payload;
         })
-
     }
 })
 

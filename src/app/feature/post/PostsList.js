@@ -40,7 +40,6 @@ const PostsList = () => {
 
     return (
         <section>
-            <div>PostsList</div>
             {content}
         </section>
     )

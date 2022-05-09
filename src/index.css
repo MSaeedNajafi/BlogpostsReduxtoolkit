@@ -80,3 +80,16 @@ form {
 button{
   padding: 5px
 }
+
+.itemLIst{ 
+  color: black;
+  text-decoration: none;
+  /* background-color: beige;
+  padding: 5px */
+}
+
+.navItem{ 
+  display:flex;  
+  list-style:none;
+  justify-content: space-between;
+}
