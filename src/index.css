@@ -67,3 +67,16 @@ form {
   color: whitesmoke;
   font-size: 1rem;
 }
+
+
+.excerpt {
+  font-style: italic;
+}
+
+.viewPost {
+  color: black;
+  text-decoration: none;
+}
+button{
+  padding: 5px
+}

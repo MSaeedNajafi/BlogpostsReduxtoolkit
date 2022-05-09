@@ -1,9 +1,12 @@
 import React from 'react'
+import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
+
 import PostAuthor from "./PostAuthor";
 import TimeAgo from './TimeAgo';
 import ReactionButtons from './ReactionButtons';
 import { postsRemoved } from './postsSlice';
-import { useDispatch } from 'react-redux';
+
 
 
 const PostsExcerpt = (props) => {
@@ -12,17 +15,20 @@ const PostsExcerpt = (props) => {
   
   return (
     <article>
-        <h3>{props.index+1}) {post.title}</h3>
-        <p>{post.body.substring(0, 100)}</p>
+        <h3>{post.id}) {post.title}</h3>
+        <p className='excerpt '>{post.body.substring(0, 75)}...</p>
 
         <div className='postCredit'>
-            <PostAuthor userId={post.userId} />
-            <TimeAgo timeStamp={post.date} />
+          <br />
+          <PostAuthor userId={post.userId} />
+          <TimeAgo timeStamp={post.date} />
         </div>
         <ReactionButtons post={post}/>
 
         <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between',marginTop: 10 }}>
-          <button>Edit Post</button>
+          <button>
+            <Link className='viewPost' to={`post/${post.id}`}>View Post</Link>
+          </button>
 
           <button onClick={() => dispatch(postsRemoved({postId: post.id}))}>Remove Post</button>
 
