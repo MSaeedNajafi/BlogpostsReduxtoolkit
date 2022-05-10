@@ -1,20 +1,19 @@
-import React, { useEffect } from 'react'
-import { useSelector, useDispatch } from "react-redux"; 
+import React from 'react'
+import { useSelector } from "react-redux"; 
 import PostsExcerpt from './PostsExcerpt';
-import { selectAllPosts, getPostError, getPostsStatus, fetchPosts } from "./postsSlice";
+import { selectAllPosts, getPostError, getPostsStatus } from "./postsSlice";
 
  
 const PostsList = () => {
-    const dispatch = useDispatch()
     const posts = useSelector(selectAllPosts)
     const postsStatus = useSelector(getPostsStatus)
     const postsError = useSelector(getPostError)
 
-    useEffect(()=> {
-        if(postsStatus === 'idle'){
-            dispatch(fetchPosts())
-        }
-    },[postsStatus, dispatch])
+    // useEffect(()=> {
+    //     if(postsStatus === 'idle'){
+    //         dispatch(fetchPosts())
+    //     }
+    // },[postsStatus, dispatch])
     
 
     // // to make the new post comes on top

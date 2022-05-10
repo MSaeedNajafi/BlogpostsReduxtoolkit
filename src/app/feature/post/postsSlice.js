@@ -71,7 +71,8 @@ export const updatePost = createAsyncThunk('posts/updatePost', async (initialPos
         return response.data
     }
     catch(e){
-        return e.message;
+        // return e.message;
+        return initialPost; // only for testing redux
     }
 })
 

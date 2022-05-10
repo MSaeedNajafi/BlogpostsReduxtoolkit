@@ -10,13 +10,10 @@ import { deletePost } from './postsSlice';
 
 
 const PostsExcerpt = (props) => {
-  const navigate = useNavigate();
-
-  const dispatch = useDispatch()
   const {post} =  props;
+  const navigate = useNavigate();
+  const dispatch = useDispatch()
   const [requestStatus, setRequestStatus] = useState('idle')
-
-  //() => dispatch(deletePost({postId: post.id}))
 
   const onDeletePostClicked = () => {
     try {
