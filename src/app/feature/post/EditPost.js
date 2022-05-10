@@ -36,7 +36,7 @@ const EditPostForm = () => {
     const onSavePostClicked = () => {
         if (canSave) {
             try {
-                setRequestStatus('pending')
+                setRequestStatus('loading')
                 dispatch(updatePost({ id: post.id, title, body: content, userId, reactions: post.reactions })).unwrap()
                 //unwrap lets the promise to create an error so we can catch it later if
                 setTitle('')
@@ -60,7 +60,7 @@ const EditPostForm = () => {
 
     const onDeletePostClicked = () => {
         try {
-            setRequestStatus('pending')
+            setRequestStatus('loading')
             dispatch(deletePost({ postId: post.id })).unwrap()
 
             setTitle('')

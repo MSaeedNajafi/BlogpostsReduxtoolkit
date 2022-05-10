@@ -36,7 +36,7 @@ const AddPostForm = () => {
         // check the status now
         if(canSave){
             try{
-                setAddRequestStatus('pending')
+                setAddRequestStatus('loading')
                 dispatch(addNewPost({title, body: content, userId})).unwrap()
 
                 // unwrap() function is added to the return promise

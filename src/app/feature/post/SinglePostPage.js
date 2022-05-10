@@ -17,7 +17,7 @@ const SinglePostPage = () => {
 
     const onDeletePostClicked = () => {
         try{
-            setRequestStatus('pending')
+            setRequestStatus('loading')
             dispatch(deletePost({ postId: post.id })).unwrap()
             
             navigate('/')
