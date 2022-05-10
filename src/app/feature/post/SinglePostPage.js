@@ -1,7 +1,7 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getPostById, postsRemoved } from "./postsSlice";
+import { getPostById, deletePost } from "./postsSlice";
 
 import PostAuthor from "./PostAuthor";
 import TimeAgo from './TimeAgo';
@@ -11,30 +11,23 @@ const SinglePostPage = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch()
     const {postId} = useParams()
+    const [requestStatus, setRequestStatus] = useState('idle')
+
     const post = useSelector((state) => getPostById(state, Number(postId)))
 
     const onDeletePostClicked = () => {
         try{
-            dispatch(postsRemoved({postId: post.id}))
+            setRequestStatus('pending')
+            dispatch(deletePost({ postId: post.id })).unwrap()
+            
             navigate('/')
         }
         catch(e){
             console.error('Failed to delete the post', e)
         }
-
-        // try {
-        //     setRequestStatus('pending')
-        //     dispatch(deletePost({ id: post.id })).unwrap()
-
-        //     setTitle('')
-        //     setContent('')
-        //     setUserId('')
-        //     navigate('/')
-        // } catch (err) {
-        //     console.error('Failed to delete the post', err)
-        // } finally {
-        //     setRequestStatus('idle')
-        // }
+        finally {
+            setRequestStatus('idle')
+        }
     }
 
     if(!post){
@@ -58,7 +51,7 @@ const SinglePostPage = () => {
             <ReactionButtons post={post}/>
 
             <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between',marginTop: 10 }}>
-                <button><Link to={`/post/edit/${post.id}`} >Edit Post</Link></button>
+                <button><Link className='viewPost' to={`/post/edit/${post.id}`} >Edit Post</Link></button>
                 <button className="deleteButton"
                     type="button" onClick={onDeletePostClicked}>Remove Post</button>
             </div>

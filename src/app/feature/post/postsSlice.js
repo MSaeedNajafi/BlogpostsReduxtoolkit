@@ -75,6 +75,20 @@ export const updatePost = createAsyncThunk('posts/updatePost', async (initialPos
     }
 })
 
+export const deletePost = createAsyncThunk('posts/deletePost', async  (initialPost) => {
+    const {id} = initialPost;
+    try{
+        const response = await axios.delete(`${baseURL}/${id}`)
+        if(response?.status === 200){
+            return initialPost;
+        }
+        return `${response?.status}: ${response?.statusText}`
+    }
+    catch(e){
+        return e.message;
+    }
+})
+
 const postsSlice = createSlice({
     name: "posts",
     initialState,
@@ -114,11 +128,11 @@ const postsSlice = createSlice({
                 existingPost.reactions[reaction]++
             }
         },
-        postsRemoved(state, action){
-            const {postId} = action.payload            
-            const index = state.posts.findIndex((post) => post.id === postId);
-            state.posts.splice(index, 1);           
-        }
+        // postsRemoved(state, action){
+        //     const {postId} = action.payload            
+        //     const index = state.posts.findIndex((post) => post.id === postId);
+        //     state.posts.splice(index, 1);           
+        // }
     },
     // sometime slice reducers needs to respond to other actions that were not defined as part of slices reducers 
     // builder parameter: is an object that lets us defined addiotional case reducers that run in reponse to the actions defined outside of an slice
@@ -175,6 +189,17 @@ const postsSlice = createSlice({
                 action.payload.date = new Date().toISOString();
                 const posts = state.posts.filter(post => post.id !== id);
                 state.posts = [...posts, action.payload];
+            })
+            .addCase(deletePost.fulfilled, (state, action) => {
+                if(!action.payload?.postId){
+                    console.log('Delete could not complete!')
+                    console.log(action.payload)
+                    return;
+                }
+                const {postId} = action.payload 
+                state.posts = state.posts.filter(post => post.id !== postId)
+                // const index = state.posts.findIndex((post) => post.id === postId);
+                // state.posts.splice(index, 1);           
             })
     }
 })

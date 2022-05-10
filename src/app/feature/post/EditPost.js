@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getPostById, updatePost, postsRemoved } from './postsSlice'
+import { getPostById, updatePost, deletePost } from './postsSlice'
 import { useParams, useNavigate } from 'react-router-dom'
 import { selectAllUsers } from '../user/usersSlice'
 
@@ -61,7 +61,7 @@ const EditPostForm = () => {
     const onDeletePostClicked = () => {
         try {
             setRequestStatus('pending')
-            dispatch(postsRemoved({ id: post.id })).unwrap()
+            dispatch(deletePost({ postId: post.id })).unwrap()
 
             setTitle('')
             setContent('')
@@ -96,6 +96,7 @@ const EditPostForm = () => {
                     id="postContent"
                     name="postContent"
                     value={content}
+                    style={{height: 200}}
                     onChange={onContentChanged}
                 />
                 <button

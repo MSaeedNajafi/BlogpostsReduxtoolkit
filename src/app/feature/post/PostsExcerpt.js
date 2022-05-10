@@ -1,18 +1,35 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import PostAuthor from "./PostAuthor";
 import TimeAgo from './TimeAgo';
 import ReactionButtons from './ReactionButtons';
-import { postsRemoved } from './postsSlice';
+import { deletePost } from './postsSlice';
 
 
 
 const PostsExcerpt = (props) => {
+  const navigate = useNavigate();
+
   const dispatch = useDispatch()
   const {post} =  props;
-  
+  const [requestStatus, setRequestStatus] = useState('idle')
+
+  //() => dispatch(deletePost({postId: post.id}))
+
+  const onDeletePostClicked = () => {
+    try {
+        setRequestStatus('pending')
+        dispatch(deletePost({ postId: post.id })).unwrap()
+
+        navigate('/')
+    } catch (err) {
+        console.error('Failed to delete the post', err)
+    } finally {
+        setRequestStatus('idle')
+    }
+}
   return (
     <article>
         <h3>{post.id}) {post.title}</h3>
@@ -30,7 +47,7 @@ const PostsExcerpt = (props) => {
             <Link className='viewPost' to={`post/${post.id}`}>View Post</Link>
           </button>
 
-          <button onClick={() => dispatch(postsRemoved({postId: post.id}))}>Remove Post</button>
+          <button onClick={onDeletePostClicked}>Remove Post</button>
 
         </div>
     </article>
